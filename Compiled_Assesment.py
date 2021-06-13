@@ -11,9 +11,9 @@ class Start:
         self.start_frame.grid()
 
         # Quiz Heading (row 0)
-        self.legendary_god_quiz_label = Label(self.start_frame, text="Legendary God Quiz",
-                                              font="Arial 19 bold")
-        self.legendary_god_quiz.grid(row=0)
+        self.mystery_box_label = Label(self.start_frame, text="Legendary God Quiz",
+                                       font="Arial 19 bold")
+        self.mystery_box_label.grid(row=0)
         # Initial Instructions (row 1)
         self.mystery_instructions = Label(self.start_frame, font="arial 10 italic",
                                           text="Please Choose Your Gods ",
@@ -70,6 +70,13 @@ class Start:
                                 padx=10, pady=10)
         self.god3_label.photo = photo
         self.god3_label.grid(row=0, column=2)
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     root = Tk()
