@@ -11,14 +11,14 @@ class Start:
         self.start_frame.grid()
 
         # Quiz Heading (row 0)
-        self.mystery_box_label = Label(self.start_frame, text="Legendary God Quiz",
+        self.legendary_quiz_label = Label(self.start_frame, text="Legendary God Quiz",
                                        font="Arial 19 bold")
-        self.mystery_box_label.grid(row=0)
+        self.legendary_quiz_label.grid(row=0)
         # Initial Instructions (row 1)
-        self.mystery_instructions = Label(self.start_frame, font="arial 10 italic",
+        self.legendaryquiz_instructions = Label(self.start_frame, font="arial 10 italic",
                                           text="Please Choose Your Gods ",
                                           wrap=275, justify=LEFT, padx=10, pady=10)
-        self.mystery_instructions.grid(row=1)
+        self.legendaryquiz_instructions.grid(row=1)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -54,22 +54,14 @@ class Start:
         self.box_frame = Frame(self.game_frame)
         self.box_frame.grid(row=2, pady=10)
 
-        photo = PhotoImage(file="Odin.gif")
+        photo = PhotoImage(file="Zeus.gif")
 
         self.god1_label = Label(self.box_frame, image=photo,
                                 padx=10, pady=10)
         self.god1_label.photo = photo
         self.god1_label.grid(row=0, column=0)
 
-        self.god2_label = Label(self.box_frame, image=photo,
-                                padx=10, pady=10)
-        self.god2_label.photo = photo
-        self.god2_label.grid(row=0, column=1)
 
-        self.god3_label = Label(self.box_frame, image=photo,
-                                padx=10, pady=10)
-        self.god3_label.photo = photo
-        self.god3_label.grid(row=0, column=2)
 
 
 
