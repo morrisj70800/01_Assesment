@@ -19,7 +19,7 @@ class Game:
         self.top_answers_frame = Frame(self.game_box)
         self.top_answers_frame.grid(row=2)
 
-       # Top level answers buttons row 2.0
+        # Top level answers buttons row 2.0
         self.top_left_answer_button = Button(self.top_answers_frame, text="Top left",
                                              font="Aerial 10 bold", padx=5, pady=5,
                                              command=lambda: self.reveal_answer(0))

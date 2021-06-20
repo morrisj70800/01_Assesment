@@ -41,9 +41,14 @@ class Start:
 
         # Norse God Button
         self.play_button = Button(self.to_game_frame, text="Play",
-                                  font=button_font, bg="yellow",command=lambda: self.to_game,
+                                  font=button_font, bg="yellow",command=lambda: self.to_game(1),
                                   height=2, width=13, borderwidth=2)
         self.play_button.grid(row=0, column=0, padx=10, pady=5)
+
+        # Help Button row 3
+        self.help_button = Button(self.start_frame, text="Help", font="Helvetica 10 bold", height=2, width=10,
+                                  borderwidth=3, command=self.to_help)
+        self.help_button.grid(row=3, pady=5)
 
         # Boxes go here (row 2)
         self.box_frame = Frame(self.game_frame)
@@ -56,12 +61,23 @@ class Start:
         self.god1_label.photo = photo
         self.god1_label.grid(row=0, column=0)
 
-    def to_game(self):
+    def to_game(self, partner):
         Game(self)
+
+    def to_help(self):
+        Help(self)
+
+
+class Help:
+    def __init__(self,partner):
+        print("You asked for help")
+
+        partner.help_button.config(state=DISABLED)
 
 
 class Game:
     def __init__(self, partner):
+
         # GUI Setup
         self.game_box = Toplevel()
         self.game_frame = Frame(self.game_box)
@@ -72,10 +88,37 @@ class Game:
                                    font="Aerial 15 bold")
         self.capital_label.grid(row=0)
 
-        # If users press cross at top, game quits
-        self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
+        # Setup grid for answer buttons row 2
 
+        self.top_answers_frame = Frame(self.game_box)
+        self.top_answers_frame.grid(row=2)
 
+        # Top level answers buttons row 2.0
+        self.top_left_answer_button = Button(self.top_answers_frame, text="Top left",
+                                             font="Aerial 10 bold", padx=5, pady=5,
+                                             command=lambda: self.reveal_answer(0))
+        self.top_left_answer_button.grid(column=0, row=0)
+
+        self.top_right_answer_button = Button(self.top_answers_frame, text="Top right",
+                                              font="Aerial 10 bold", padx=5, pady=5,
+                                              command=lambda: self.reveal_answer(1))
+        self.top_right_answer_button.grid(column=1, row=0)
+
+        # Bottom level answers buttons row 2.1
+        self.bottom_left_answer_button = Button(self.top_answers_frame, text="Bottom left",
+                                                font="Aerial 10 bold", padx=5, pady=5,
+                                                command=lambda: self.reveal_answer(2))
+        self.bottom_left_answer_button.grid(column=0, row=1)
+
+        self.bottom_right_answer_button = Button(self.top_answers_frame, text="Bottom right",
+                                                 font="Aerial 10 bold", padx=5, pady=5,
+                                                 command=lambda: self.reveal_answer(3))
+        self.bottom_right_answer_button.grid(column=1, row=1)
+
+    def reveal_answer(self, location):
+      # Print corresponding number based on location
+      # TL = 0 TR =1 BL = 2 BR = 3
+      print(location)
 
 
 if __name__ == "__main__":
