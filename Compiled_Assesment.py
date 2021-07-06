@@ -1,6 +1,7 @@
 from tkinter import *
 from functools import partial   # To prevent unwanted windows
 import random
+import csv
 
 
 class Start:
@@ -62,8 +63,8 @@ class Start:
         self.god1_label.photo = photo
         self.god1_label.grid(row=0, column=0)
 
-    def to_game(self, partner):
-        Game(self)
+    def to_game(self, level):
+        Game(self, level)
 
     def to_help(self):
         Help(self)
@@ -96,7 +97,7 @@ class Help:
         self.help_text = Label(self.help_frame, text="This quiz is a 15 question quiz"
                                                      "this is a straight forward quiz"
                                                      "there are 4 answers and only one"
-                                                     "of them is correct. ", font="yellow",
+                                                     "of them is correct. ", font="green",
                                 bg=background, justify=LEFT,wrap=350)
         self.help_text.grid(row=1)
 
@@ -112,50 +113,153 @@ class Help:
 
 
 class Game:
-    def __init__(self, partner):
+    def __init__(self, partner, level):
+        print(level)
+
+        # Import the csv file, name of csv file goes here
+        with open('q_and_a_csv.csv', 'r') as f:
+            # make csv file into list
+            file = csv.reader(f)
+            next(f)
+            my_list = list(file)
+
+        # result
+        self.result = 0
+
+        # Amounts of game
+        self.rounds_played = 0
+
+        # Define said answer
+        self.top_left = ""
+        self.top_right = ""
+        self.bottom_right = ""
+        self.bottom_left = ""
 
         # GUI Setup
         self.game_box = Toplevel()
         self.game_frame = Frame(self.game_box)
         self.game_frame.grid()
 
-        # God Label row 0
-        self.capital_label = Label(self.game_frame, text="Norse Gods",
-                                   font="Aerial 15 bold")
-        self.capital_label.grid(row=0)
+        # Label for the quiz
+        self.Norse_god_label = Label(self.game_frame, text="?",
+                                   font="Arial 15")
+        self.Norse_god_label.grid(row=0)
 
-        # Setup grid for answer buttons row 2
+        # Label showing answer
+        self.answer_label = Label(self.game_frame, text="", font="Arial 15")
+        self.answer_label.grid(row=1)
 
-        self.top_answers_frame = Frame(self.game_box)
-        self.top_answers_frame.grid(row=2)
+        # Setup grid for answer buttons row 3
+        self.answers_frame = Frame(self.game_box)
+        self.answers_frame.grid(row=3)
 
-        # Top level answers buttons row 1.0
-        self.top_left_answer_button = Button(self.top_answers_frame, text="Answer 1",
-                                             font="Aerial 10 bold", padx=5, pady=5,
-                                             command=lambda: self.reveal_answer(0))
-        self.top_left_answer_button.grid(column=0, row=0)
+        # Top level button
+        self.top_left_button = Button(self.answers_frame, text="Top Left",
+                                      font="Arial 15", padx=5, pady=5,
+                                      command=lambda: self.reveal_answer(self.top_left))
+        self.top_left_button.grid(column=0, row=0)
 
-        self.top_right_answer_button = Button(self.top_answers_frame, text="Answer 2",
-                                              font="Aerial 10 bold", padx=5, pady=5,
-                                              command=lambda: self.reveal_answer(1))
-        self.top_right_answer_button.grid(column=1, row=0)
+        self.top_right_button = Button(self.answers_frame, text="Top Right",
+                                      font="Arial 15", padx=5, pady=5,
+                                      command=lambda: self.reveal_answer(self.top_right))
+        self.top_right_button.grid(column=1, row=0)
 
-        # Bottom level answers buttons row 2.0
-        self.bottom_left_answer_button = Button(self.top_answers_frame, text="Answer 3",
-                                                font="Aerial 10 bold", padx=5, pady=5,
-                                                command=lambda: self.reveal_answer(2))
-        self.bottom_left_answer_button.grid(column=0, row=1)
+        # Bottom level button
+        self.bottom_left_button = Button(self.answers_frame, text="Bottom Left",
+                                      font="Arial 15", padx=5, pady=5,
+                                      command=lambda: self.reveal_answer(self.bottom_left))
+        self.bottom_left_button.grid(column=0, row=1)
 
-        self.bottom_right_answer_button = Button(self.top_answers_frame, text="Answer 4",
-                                                 font="Aerial 10 bold", padx=5, pady=5,
-                                                 command=lambda: self.reveal_answer(3))
-        self.bottom_right_answer_button.grid(column=1, row=1)
+        self.bottom_right_button = Button(self.answers_frame, text="Bottom Right",
+                                      font="Arial 15", padx=5, pady=5,
+                                      command=lambda: self.reveal_answer(self.bottom_right))
+        self.bottom_right_button.grid(column=1, row=1)
 
+        # Label for results
+        self.result_label = Label(self.game_box, text="{} correct / {} roundsplayed".format(self.result,
+                                                                                            self.rounds_played))
+        self.result_label.grid(row=3)
+
+        # Next button
+        self.next_button = Button(self.game_box, text="next", command=lambda:self.to_next(my_list))
+        self.next_button.grid(row=4)
+
+        # Disable the next button
+        self.next_button.config(state=DISABLED)
+
+        self.to_next(my_list)
 
     def reveal_answer(self, location):
-      # Print corresponding number based on location
-      print(location)
 
+        # Disable all the buttons
+        self.top_left_button.config(state=DISABLED)
+        self.top_right_button.config(state=DISABLED)
+        self.bottom_left_button.config(state=DISABLED)
+        self.bottom_right_button.config(state=DISABLED)
+
+        # Enable the next_button again
+        self.next_button.config(state=NORMAL)
+
+        # Rounds played as game played
+        self.rounds_played += 1
+
+        # Check
+        if location == self.answer:
+            self.answer_label.config(text="Nice!!!", fg="#00FF00")
+            self.result += 1
+        else:
+            self.answer_label.config(text="Try Again", fg="#0000FF")
+
+        # refreshed result after right or wrong
+        self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
+
+        # To Next defined
+    def to_next(self, list):
+        self.top_left_button.config(state=NORMAL)
+        self.top_right_button.config(state=NORMAL)
+        self.bottom_left_button.config(state=NORMAL)
+        self.bottom_right_button.config(state=NORMAL)
+        self.next_button.config(state=DISABLED)
+        self.answer_label.config(text="")
+
+        # Randomized four gods from list again
+        question_answer = random.choice(list)
+        nope = random.choice(list)
+        no = random.choice(list)
+        close = random.choice(list)
+
+        # defining variables, correct and wrong answer defined again
+        self.question = question_answer[1]
+        self.answer = question_answer[0]
+        incorrect_answer_1 = nope[0]
+        incorrect_answer_2 = no[0]
+        incorrect_answer_3 = close[0]
+        print(question_answer)
+
+        self.Norse_god_label.config(text=self.question)
+
+        # Answer List again
+        answer_list = [self.answer, incorrect_answer_1, incorrect_answer_2, incorrect_answer_3]
+        random.shuffle(answer_list)
+
+        # Define said answer again
+        self.top_left = answer_list[0]
+        self.top_right = answer_list[1]
+        self.bottom_right = answer_list[2]
+        self.bottom_left = answer_list[3]
+
+        # Defining the randomized list
+        # Top level
+        self.top_left_button.config(text=self.top_left, command=lambda: self.reveal_answer(self.top_left))
+
+        self.top_right_button.config(text=self.top_right, command=lambda: self.reveal_answer(self.top_right))
+
+        # Bottom level
+        self.bottom_left_button.config(text=self.bottom_left, command=lambda:
+        self.reveal_answer(self.bottom_left))
+
+        self.bottom_right_button.config(text=self.bottom_right, command=lambda:
+        self.reveal_answer(self.bottom_right))
 
 if __name__ == "__main__":
     root = Tk()
