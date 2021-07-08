@@ -54,7 +54,7 @@ class Start:
         self.box_frame = Frame(self.game_frame)
         self.box_frame.grid(row=2, pady=10)
 
-        photo = PhotoImage(file="Zeus.gif")
+        photo = PhotoImage(file="Odin.gif")
 
         self.god1_label = Label(self.box_frame, image=photo,
                                 padx=10, pady=10)

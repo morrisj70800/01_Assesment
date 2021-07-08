@@ -141,8 +141,8 @@ class Game:
         self.game_frame.grid()
 
         # Label for the quiz
-        self.Norse_god_label = Label(self.game_frame, text="?",
-                                   font="Arial 15")
+        self.Norse_god_label = Label(self.game_frame, text="Norse Gods Quiz",
+                                     font="Arial 15")
         self.Norse_god_label.grid(row=0)
 
         # Label showing answer
@@ -191,25 +191,6 @@ class Game:
 
     def reveal_answer(self, location):
 
-        # Disable all the buttons
-        self.top_left_button.config(state=DISABLED)
-        self.top_right_button.config(state=DISABLED)
-        self.bottom_left_button.config(state=DISABLED)
-        self.bottom_right_button.config(state=DISABLED)
-
-        # Enable the next_button again
-        self.next_button.config(state=NORMAL)
-
-        # Rounds played as game played
-        self.rounds_played += 1
-
-        # Check
-        if location == self.answer:
-            self.answer_label.config(text="Nice!!!", fg="#00FF00")
-            self.result += 1
-        else:
-            self.answer_label.config(text="Try Again", fg="#0000FF")
-
         # refreshed result after right or wrong
         self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
 
@@ -222,44 +203,6 @@ class Game:
         self.next_button.config(state=DISABLED)
         self.answer_label.config(text="")
 
-        # Randomized four gods from list again
-        question_answer = random.choice(list)
-        nope = random.choice(list)
-        no = random.choice(list)
-        close = random.choice(list)
-
-        # defining variables, correct and wrong answer defined again
-        self.question = question_answer[1]
-        self.answer = question_answer[0]
-        incorrect_answer_1 = nope[0]
-        incorrect_answer_2 = no[0]
-        incorrect_answer_3 = close[0]
-        print(question_answer)
-
-        self.Norse_god_label.config(text=self.question)
-
-        # Answer List again
-        answer_list = [self.answer, incorrect_answer_1, incorrect_answer_2, incorrect_answer_3]
-        random.shuffle(answer_list)
-
-        # Define said answer again
-        self.top_left = answer_list[0]
-        self.top_right = answer_list[1]
-        self.bottom_right = answer_list[2]
-        self.bottom_left = answer_list[3]
-
-        # Defining the randomized list
-        # Top level
-        self.top_left_button.config(text=self.top_left, command=lambda: self.reveal_answer(self.top_left))
-
-        self.top_right_button.config(text=self.top_right, command=lambda: self.reveal_answer(self.top_right))
-
-        # Bottom level
-        self.bottom_left_button.config(text=self.bottom_left, command=lambda:
-        self.reveal_answer(self.bottom_left))
-
-        self.bottom_right_button.config(text=self.bottom_right, command=lambda:
-        self.reveal_answer(self.bottom_right))
 
 if __name__ == "__main__":
     root = Tk()

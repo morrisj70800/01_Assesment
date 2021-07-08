@@ -66,16 +66,36 @@ class Game:
     def __init__(self, partner, level):
         print(level)
 
-        # Import the csv file, name of csv file goes here
-        with open('q_and_a_csv.csv', 'r') as f:
-            # make csv file into list
-            file = csv.reader(f)
-            next(f)
-            my_list = list(file)
+        # Get list from csv and import it
+        # name of csv file goes here...
+        with open('q_and_a_csv.csv', newline='') as f:
+            reader = csv.reader(f)
+            data = list(reader)
+
+        valid_questions = []
+        for item in data:
+            if item[0] != "ignore_me":
+                valid_questions.append(item)
+
+            question_ans = random.choice(valid_questions)
+            question = question_ans[0]
+            answer = question_ans[1]
+
+            answer_options = [answer]
+            for option in range(0, 3):
+                # choose answer
+                wrong_ans = random.choice(data)
+                wrong = wrong_ans[1]
+                answer_options.append(wrong)
+
+        # choose an item from the main list, this item is itself a list
+        question_ans = random.choice
+
+        # List to store the answers
+        self.game_history = []
 
         # result
         self.result = 0
-
         # Amounts of game
         self.rounds_played = 0
 
@@ -91,11 +111,11 @@ class Game:
         self.game_frame.grid()
 
         # Label for the quiz
-        self.egyptian_god_label = Label(self.game_frame, text="?",
-                                   font="Arial 15")
-        self.egyptian_god_label.grid(row=0)
+        self.Norse_god_label = Label(self.game_frame, text="Norse Gods Quiz",
+                                     font="Arial 15")
+        self.Norse_god_label.grid(row=0)
 
-        # Label showing answer
+        # Answer Label
         self.answer_label = Label(self.game_frame, text="", font="Arial 15")
         self.answer_label.grid(row=1)
 
@@ -110,61 +130,40 @@ class Game:
         self.top_left_button.grid(column=0, row=0)
 
         self.top_right_button = Button(self.answers_frame, text="Top Right",
-                                      font="Arial 15", padx=5, pady=5,
-                                      command=lambda: self.reveal_answer(self.top_right))
+                                       font="Arial 15", padx=5, pady=5,
+                                       command=lambda: self.reveal_answer(self.top_right))
         self.top_right_button.grid(column=1, row=0)
 
         # Bottom level button
         self.bottom_left_button = Button(self.answers_frame, text="Bottom Left",
-                                      font="Arial 15", padx=5, pady=5,
-                                      command=lambda: self.reveal_answer(self.bottom_left))
+                                         font="Arial 15", padx=5, pady=5,
+                                         command=lambda: self.reveal_answer(self.bottom_left))
         self.bottom_left_button.grid(column=0, row=1)
 
         self.bottom_right_button = Button(self.answers_frame, text="Bottom Right",
-                                      font="Arial 15", padx=5, pady=5,
-                                      command=lambda: self.reveal_answer(self.bottom_right))
+                                          font="Arial 15", padx=5, pady=5,
+                                          command=lambda: self.reveal_answer(self.bottom_right))
         self.bottom_right_button.grid(column=1, row=1)
 
         # Label for results
-        self.result_label = Label(self.game_box, text="{} correct / {} roundsplayed".format(self.result,
-                                                                                            self.rounds_played))
+        self.result_label = Label(self.game_box, text="{} correct / {} rounds played".format(self.result,
+                                                                                             self.rounds_played))
         self.result_label.grid(row=3)
 
         # Next button
-        self.next_button = Button(self.game_box, text="next", command=lambda:self.to_next(my_list))
+        self.next_button = Button(self.game_box, text="next", command=lambda: self.to_next(list))
         self.next_button.grid(row=4)
 
         # Disable the next button
         self.next_button.config(state=DISABLED)
 
-        self.to_next(my_list)
-
     def reveal_answer(self, location):
 
-        # Disable all the buttons
-        self.top_left_button.config(state=DISABLED)
-        self.top_right_button.config(state=DISABLED)
-        self.bottom_left_button.config(state=DISABLED)
-        self.bottom_right_button.config(state=DISABLED)
-
-        # Enable the next_button again
-        self.next_button.config(state=NORMAL)
-
-        # Rounds played as game played
-        self.rounds_played += 1
-
-        # Check
-        if location == self.answer:
-            self.answer_label.config(text="Nice!!!", fg="#00FF00")
-            self.result += 1
-        else:
-            self.answer_label.config(text="Maybe Next Time??", fg="#0000FF")
-
         # refreshed result after right or wrong
-        self.result_label.config(text="{} correct / {} roundsplayed".format(self.result, self.rounds_played))
+        self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
 
-        # To Next defined
-    def to_next(self, list):
+    # To Next defined
+    def to_next(self):
         self.top_left_button.config(state=NORMAL)
         self.top_right_button.config(state=NORMAL)
         self.bottom_left_button.config(state=NORMAL)
@@ -186,7 +185,7 @@ class Game:
         incorrect_answer_3 = close[0]
         print(question_answer)
 
-        self.egyptian_god_label.config(text=self.question)
+        self.Norse_god_label.config(text=self.question)
 
         # Answer List again
         answer_list = [self.answer, incorrect_answer_1, incorrect_answer_2, incorrect_answer_3]
