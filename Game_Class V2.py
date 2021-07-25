@@ -4,6 +4,7 @@ import random
 import csv
 
 
+
 class Start:
     def __init__(self, parent):
 
@@ -17,7 +18,7 @@ class Start:
         self.legendary_quiz_label.grid(row=0)
         # Initial Instructions (row 1)
         self.legendary_quiz_instructions = Label(self.start_frame, font="arial 10 italic",
-                                                text="Please Press play. you will"
+                                                 text="Please Press play. you will"
                                                      "be taken to a quiz full of norse"
                                                      "gods this quiz is a 15 question"
                                                      " quiz ",
@@ -71,25 +72,7 @@ class Game:
             # make csv file into list
             file = csv.reader(f)
             next(f)
-            reader = csv.reader(f)
             my_list = list(file)
-            data = list(reader)
-
-        valid_questions = []
-        for item in data:
-            if item[0] != "ignore_me":
-                valid_questions.append(item)
-
-            question_ans = random.choice(valid_questions)
-            question = question_ans[0]
-            answer = question_ans[1]
-
-            answer_options = [answer]
-            for option in range(0, 3):
-                # choose answer
-                wrong_ans = random.choice(data)
-                wrong = wrong_ans[1]
-                answer_options.append(wrong)
 
         # choose an item from the main list, this item is itself a list
         question_ans = random.choice
