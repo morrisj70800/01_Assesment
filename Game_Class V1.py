@@ -99,7 +99,7 @@ class Game:
         # Amounts of game
         self.rounds_played = 0
 
-        # Define said answer
+        # define  answers
         self.top_left = ""
         self.top_right = ""
         self.bottom_right = ""
@@ -112,7 +112,7 @@ class Game:
 
         # Label for the quiz
         self.Norse_god_label = Label(self.game_frame, text="Norse Gods Quiz",
-                                     font="Arial 15")
+                                     font="Arial 15", bg="yellow")
         self.Norse_god_label.grid(row=0)
 
         # Answer Label
@@ -123,35 +123,35 @@ class Game:
         self.answers_frame = Frame(self.game_box)
         self.answers_frame.grid(row=3)
 
-        # Top level button
+        # Top  buttons
         self.top_left_button = Button(self.answers_frame, text="Top Left",
-                                      font="Arial 15", padx=5, pady=5,
+                                      font="Arial 20", bg="yellow",
                                       command=lambda: self.reveal_answer(self.top_left))
-        self.top_left_button.grid(column=0, row=0)
+        self.top_left_button.grid(column=0, row=0, pady=10)
 
         self.top_right_button = Button(self.answers_frame, text="Top Right",
-                                       font="Arial 15", padx=5, pady=5,
+                                       font="Arial 20", bg="yellow",
                                        command=lambda: self.reveal_answer(self.top_right))
-        self.top_right_button.grid(column=1, row=0)
+        self.top_right_button.grid(column=1, row=0, pady=10, padx=5)
 
         # Bottom level button
         self.bottom_left_button = Button(self.answers_frame, text="Bottom Left",
-                                         font="Arial 15", padx=5, pady=5,
+                                         font="Arial 20", bg="green",
                                          command=lambda: self.reveal_answer(self.bottom_left))
-        self.bottom_left_button.grid(column=0, row=1)
+        self.bottom_left_button.grid(column=0, row=1, pady=10)
 
         self.bottom_right_button = Button(self.answers_frame, text="Bottom Right",
-                                          font="Arial 15", padx=5, pady=5,
+                                          font="Arial 20", bg="green",
                                           command=lambda: self.reveal_answer(self.bottom_right))
-        self.bottom_right_button.grid(column=1, row=1)
+        self.bottom_right_button.grid(column=1, row=1, pady=10, padx=5)
 
-        # Label for results
-        self.result_label = Label(self.game_box, text="{} correct / {} rounds played".format(self.result,
-                                                                                             self.rounds_played))
-        self.result_label.grid(row=3)
+        # results label
+        self.result_label = Label(self.game_box, text="{} right / {} rounds played".format(self.result,
+                                                                                           self.rounds_played))
+        self.result_label.grid(row=5)
 
         # Next button
-        self.next_button = Button(self.game_box, text="next", command=lambda: self.to_next(list))
+        self.next_button = Button(self.game_box, text="next", bg="yellow", command=lambda: self.to_next)
         self.next_button.grid(row=4)
 
         # Disable the next button
@@ -160,7 +160,7 @@ class Game:
     def reveal_answer(self, location):
 
         # refreshed result after right or wrong
-        self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
+        self.result_label.config(text="{} right / {} rounds played".format(self.result, self.rounds_played))
 
     # To Next defined
     def to_next(self):
@@ -204,11 +204,9 @@ class Game:
         self.top_right_button.config(text=self.top_right, command=lambda: self.reveal_answer(self.top_right))
 
         # Bottom level
-        self.bottom_left_button.config(text=self.bottom_left, command=lambda:
-        self.reveal_answer(self.bottom_left))
+        self.bottom_left_button.config(text=self.bottom_left, command=lambda: self.reveal_answer(self.bottom_left))
 
-        self.bottom_right_button.config(text=self.bottom_right, command=lambda:
-        self.reveal_answer(self.bottom_right))
+        self.bottom_right_button.config(text=self.bottom_right, command=lambda: self.reveal_answer(self.bottom_right))
 
 
 if __name__ == "__main__":
