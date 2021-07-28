@@ -19,9 +19,9 @@ class Start:
         # Initial Instructions (row 1)
         self.legendary_quiz_instructions = Label(self.start_frame, font="arial 10 italic",
                                                  text="Please Press play. you will"
-                                                     "be taken to a quiz full of norse"
-                                                     "gods this quiz is a 15 question"
-                                                     " quiz ",
+                                                      "be taken to a quiz full of norse"
+                                                      "gods this quiz is a 25 question"
+                                                      " quiz ",
                                                      wrap=275, justify=LEFT, padx=10, pady=10)
         self.legendary_quiz_instructions.grid(row=1)
 
@@ -61,6 +61,7 @@ class Start:
 
     def to_game(self, level):
         Game(self, level)
+        self.start_frame.destroy()
 
 
 class Game:
@@ -120,29 +121,30 @@ class Game:
         # Top level button
 
         self.top_left_button = Button(self.answers_frame, text="",
-                                      font="Arial 15", width=35, bg="black", fg="yellow",
+                                      font="Arial 15", width=35, bg="yellow", fg="blue",
                                       command=lambda: self.reveal_answer(self.top_left))
         self.top_left_button.grid(column=0, row=0, padx=5, pady=5)
 
         self.top_right_button = Button(self.answers_frame, text="",
-                                       font="Arial 15", width=35, bg="black", fg="yellow",
+                                       font="Arial 15", width=35, bg="yellow", fg="blue",
                                        command=lambda: self.reveal_answer(self.top_right))
         self.top_right_button.grid(column=1, row=0)
 
         # Bottom level button
         self.bottom_left_button = Button(self.answers_frame, text="",
-                                         font="Arial 15", width=35, bg="black", fg="yellow",
+                                         font="Arial 15", width=35, bg="yellow", fg="blue",
                                          command=lambda: self.reveal_answer(self.bottom_left))
         self.bottom_left_button.grid(column=0, row=1)
 
         self.bottom_right_button = Button(self.answers_frame, text="",
-                                          font="Arial 15", width=35, bg="black", fg="yellow",
+                                          font="Arial 15", width=35, bg="yellow", fg="blue",
                                           command=lambda: self.reveal_answer(self.bottom_right))
         self.bottom_right_button.grid(column=1, row=1)
 
         # Label for results
-        self.result_label = Label(self.game_box, font="Arial 14 bold", fg="black", text="{} correct / {} games played".format(self.result,
-                                                                                            self.rounds_played))
+        self.result_label = Label(self.game_box, font="Arial 14 bold", fg="black",
+                                  text="{} correct / {} games played".format(self.result,
+                                                                             self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
         # Next button
