@@ -107,7 +107,6 @@ class Game:
         self.answers_frame.grid(row=3)
 
         photo = PhotoImage(file="Odin.gif")
-        photo = PhotoImage(file="Thor.gif")
 
         # Boxes go here (row 2)
         self.box_frame = Frame(self.game_frame)
@@ -146,16 +145,16 @@ class Game:
                                                                              self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
-        # Help and Game Stats button (row 5)
-        self.start_help_frame = Frame(self.game_box, pady=10)
-        self.start_help_frame.grid(row=6, cloumn=0, pady=10)
+        # Help button (row 5)
+        self.help_button_frame = Frame(self.game_box, pady=10)
+        self.help_button_frame.grid(row=6, column=0, pady=10)
 
-        # Help and statistics buttons
-        self.start_help_button = Button(self.start_help_frame, text="Help/Rules",
-                                        font="Arial 15 bold",
-                                        bg="black", fg="yellow", width=20,
-                                        command=self.to_help)
-        self.start_help_button.grid(row=6, column=0, pady=10)
+        # Help buttons
+        self.help_button = Button(self.game_box, text="Help/Rules",
+                                  font="Arial 15 bold",
+                                  bg="yellow", fg="blue", width=20,
+                                  command=self.to_help)
+        self.help_button.grid(row=7, column=0, pady=10)
 
         # Next button
         self.next_button = Button(self.game_box, width=15, height=1, text="next", background="yellow", fg="blue",
@@ -183,10 +182,10 @@ class Game:
 
         # Check
         if location == self.answer:
-            self.answer_label.config(text="Nice!!!", fg="#00FF00")
+            self.answer_label.config(text="Nice One!!!", fg="#00FF00")
             self.result += 1
         else:
-            self.answer_label.config(text="No!", fg="#0000FF")
+            self.answer_label.config(text="Better Luck Next Time!", fg="#0000FF")
 
         # refreshed result after right or wrong
         self.result_label.config(text="{} correct / {} Questions Answered".format(self.result, self.rounds_played))
@@ -245,12 +244,14 @@ class Game:
 
     def to_help(self):
         get_help = Help(self)
-        get_help.help_text.configure(text="this quiz has 25 different questions that you can answer")
+        get_help.help_text.configure(text="this quiz has 25 different questions that you can answer"
+                                          "you may save your results when ever you feel like you want"
+                                          "to. after there has been 25 questions they will repeat")
 
 
 class Help:
     def __init__(self, partner):
-        background = "Yellow"
+        background = "white"
 
         # disable help button
         partner.help_button.config(state=DISABLED)
@@ -267,8 +268,8 @@ class Help:
 
         # Set up Help heading (row 0)
         self.how_heading = Label(self.help_frame, text="Help",
-                                     font=("Aerial", "24", "bold",),
-                                     bg=background)
+                                 font=("Aerial", "24", "bold",),
+                                 bg=background)
         self.how_heading.grid(row=0)
 
         # Help text (label, row 1)
@@ -278,7 +279,7 @@ class Help:
 
         # Dismiss button (row 2)
         self.dismiss_btn = Button(self.help_frame, text="Dismiss", width=10, bg="yellow", fg="blue",
-                                      font="Helvetica" "10" "bold", command=partial(self.close_help, partner))
+                                  font="Aerial" "10" "bold", command=partial(self.close_help, partner))
         self.dismiss_btn.grid(row=2, pady=10)
 
     def close_help(self, partner):

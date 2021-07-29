@@ -18,28 +18,25 @@ class History:
         self.history_frame.grid()
 
         # Set up history heading (row 0)
-        self.how_heading = Label(self.history_frame, text="Calculation history",
+        self.how_heading = Label(self.history_frame, text="Result history",
                                  font=("Arial", "15", "bold",), fg="yellow",
                                  bg=background)
         self.how_heading.grid(row=0)
 
         # history text (label, row 1)
-        self.history_text = Label(self.history_frame, text="Here are your most recent calculations ", fg="yellow",
+        self.history_text = Label(self.history_frame, text="Here are your most recent results ", fg="yellow",
 
                                   justify=LEFT, width=40, bg=background, wrap=250, padx=10, pady=10)
         self.history_text.grid(row=1)
 
         # Label for results
-        self.result_label = Label(self.history_frame, font="Arial 14 bold", fg="yellow", bg="black",
+        self.result_label = Label(self.history_frame, font="Arial 14 bold", fg="yellow", bg="blue",
                                   text="{} correct / {} rounds played".format(self.result,
                                                                               self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
-        # refreshed result after right or wrong
-        self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
-
         # history Output goes here... (Row 2)
-        # Generate string from list of calcualtions...
+        # Generate string from list of calculations...
         self.history_text.config(text="Here are your most recent calculations ", fg="yellow")
 
         # Export /Dismiss Buttons Frame (row 3)
