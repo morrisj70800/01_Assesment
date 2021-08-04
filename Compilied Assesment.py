@@ -21,7 +21,7 @@ class Start:
                                                       "be taken to a quiz full of norse"
                                                       "gods this quiz is a 25 question"
                                                       " quiz ",
-                                                     wrap=275, justify=LEFT, padx=10, pady=10)
+                                                 wrap=275, justify=LEFT, padx=10, pady=10)
         self.legendary_quiz_instructions.grid(row=1)
 
         # GUI Setup
@@ -43,8 +43,8 @@ class Start:
 
         # Norse God Button
         self.play_button = Button(self.to_game_frame, text="Play",
-                                  font=button_font, bg="yellow",command=lambda: self.to_game(1),
-                                  height=2, width=13, borderwidth=2)
+                                  font=button_font, bg="yellow", command=lambda: self.to_game(1),
+                                  fg="blue", height=2, width=13, borderwidth=2)
         self.play_button.grid(row=0, column=0, padx=10, pady=5)
 
         # Boxes go here (row 2)
@@ -106,7 +106,7 @@ class Game:
         self.answers_frame = Frame(self.game_box)
         self.answers_frame.grid(row=3)
 
-        photo = PhotoImage(file="Odin.gif")
+        photo = PhotoImage(file="Gods.gif")
 
         # Boxes go here (row 2)
         self.box_frame = Frame(self.game_frame)
@@ -140,14 +140,13 @@ class Game:
         self.bottom_right_button.grid(column=1, row=1)
 
         # Label for results
+        self.result_label = Label(self.game_box, font="Arial 14 bold", fg="black")
         self.result_label = Label(self.game_box, font="Arial 14 bold", fg="blue",
                                   text="{} correct / {} games played".format(self.result,
                                                                              self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
-        # Stats button frame
-        self.statistics_button_frame = Frame(self.game_box)
-        self.statistics_button_frame.grid(row=6, column=1)
+        self.all_calc_list = [self.result, self.rounds_played]
 
         # Help button (row 5)
         self.help_button_frame = Frame(self.game_box, pady=10)
@@ -155,17 +154,16 @@ class Game:
 
         # Help button
         self.help_button = Button(self.game_box, text="Help/Rules",
-                                  font="Arial 15 bold",
+                                  font="Arial 10 bold",
                                   bg="yellow", fg="blue", width=20,
                                   command=self.to_help)
         self.help_button.grid(row=7, column=0, pady=10)
 
-        # Statistics Button
-        self.statistics_button = Button(self.game_box, text="Statistics",
-                                        font="Arial 15 bold",
-                                        bg="yellow", fg="blue", width=20,
-                                        command=self.to_stats)
-        self.statistics_button.grid(row=8, column=0, padx=10)
+        # history Button (row 1)
+        self.history_button = Button(self.game_box, text="Norse God Quiz Export/Save", fg="blue",
+                                     font="Arial 10 bold", width=25, height=2,
+                                     bg="yellow", command=lambda: self.history(self.all_calc_list))
+        self.history_button.grid(row=9, padx=15, pady=15)
 
         # Next button
         self.next_button = Button(self.game_box, width=15, height=1, text="next", background="yellow", fg="blue",
@@ -193,9 +191,11 @@ class Game:
 
         # Check
         if location == self.answer:
+            self.answer_label.config(text="Nice!!!", fg="#00FF00")
             self.answer_label.config(text="Nice One!!!", fg="#00FF00")
             self.result += 1
         else:
+            self.answer_label.config(text="No!", fg="#0000FF")
             self.answer_label.config(text="Better Luck Next Time!", fg="#0000FF")
 
         # refreshed result after right or wrong
@@ -259,13 +259,11 @@ class Game:
 
     def to_help(self):
         get_help = Help(self)
-        get_help.help_text.configure(text="this quiz has 25 different questions that you can answer"
-                                          "you may save your results when ever you feel like you want"
-                                          "to. after there has been 25 questions they will repeat")
-
-    def to_stats(self):
-        get_stats = Stats(self)
-        get_stats.stats_text.configure(text="Here is your statistics")
+        get_help.help_text.configure(text=" You will choose 1 of the 4 answers and one of them will"
+                                          "be the correct answer. "
+                                          "There is 25 different questions that you can answer"
+                                          " you may save your results when ever you feel like you want"
+                                          " to. after there has been 25 questions they will repeat")
 
 
 class Help:
@@ -292,8 +290,8 @@ class Help:
         self.how_heading.grid(row=0)
 
         # Help text (label, row 1)
-        self.help_text = Label(self.help_frame, text=". ", font="yellow",
-                               bg=background, justify=LEFT, wrap=350)
+        self.help_text = Label(self.help_frame, text=". ", font="arial 15 bold",
+                               fg="blue", bg=background, justify=LEFT, wrap=350)
         self.help_text.grid(row=1)
 
         # Dismiss button (row 2)
@@ -310,8 +308,14 @@ class Help:
 class History:
     def __init__(self, partner, calc_history):
 
+
+        self.result = partner.result
+
+
+        self.rounds_played = partner.rounds_played
+
         # This color is black
-        background = "black"
+        background = "white"
 
         # disable history button
         partner.history_button.config(state=DISABLED)
@@ -328,38 +332,43 @@ class History:
 
         # Set up history heading (row 0)
         self.how_heading = Label(self.history_frame, text="Calculation history",
-                                 font=("Arial", "15", "bold",), fg="yellow",
+                                 font=("Arial", "15", "bold",), fg="blue",
                                  bg=background)
         self.how_heading.grid(row=0)
 
         # history text (label, row 1)
-        self.history_text = Label(self.history_frame, text="Here are your most recent results ", fg="yellow",
-
+        self.history_text = Label(self.history_frame, text="Here are your calculations in the most recent run.",
+                                  fg="blue",
                                   justify=LEFT, width=40, bg=background, wrap=250, padx=10, pady=10)
         self.history_text.grid(row=1)
 
         # Label for results
-        self.result_label = Label(self.history_frame, font="Arial 14 bold", fg="yellow", bg="blue",
+        self.result_label = Label(self.history_frame, font="Arial 14 bold", fg="blue", bg="white",
                                   text="{} correct / {} rounds played".format(self.result,
                                                                               self.rounds_played))
-        self.result_label.grid(row=4, column=0)
+        self.result_label.grid(row=2, column=0)
+
+        # refreshed result after right or wrong
+        self.result_label.config(text="{} correct / {} rounds played".format(self.result, self.rounds_played))
 
         # history Output goes here... (Row 2)
-        # Generate string from list of calculations...
-        self.history_text.config(text="Here are your most recent calculations ", fg="yellow")
+        # Generate string from list of calcualtions...
+        self.history_text.config(text="Here are your most game results ", fg="blue")
 
         # Export /Dismiss Buttons Frame (row 3)
         self.export_dismiss_frame = Frame(self.history_frame)
         self.export_dismiss_frame.grid(row=3, pady=10)
 
         # Export Button
-        self.export_button = Button(self.export_dismiss_frame, text="Export", bg=background, fg="yellow",
+        self.export_button = Button(self.export_dismiss_frame, text="Export", fg="blue",
+                                    background="yellow",
                                     font="Arial 12 bold",
                                     command=lambda: self.export(calc_history))
         self.export_button.grid(row=0, column=0)
 
         # Dismiss Button
-        self.dismiss_btn = Button(self.export_dismiss_frame, text="Dismiss", bg=background, fg="yellow",
+        self.dismiss_btn = Button(self.export_dismiss_frame, text="Dismiss", background="yellow",
+                                  fg="blue",
                                   font="Arial 12 bold", command=partial(self.close_history, partner))
         self.dismiss_btn.grid(row=0, column=1)
 
@@ -371,8 +380,127 @@ class History:
     def export(self, calc_history):
         Export(self, calc_history)
 
+
+class Export:
+    def __init__(self, partner, calc_history):
+        print(calc_history)
+
+        self.result = partner.result
+        self.rounds_played = partner.rounds_played
+
+        # This color is black
+        background = "white"
+
+        # disable export button
+        partner.export_button.config(state=DISABLED)
+
+        # Sets up child window (ie: export box)
+        self.export_box = Toplevel()
+
+        # If users press 'x' cross at the top, closes export and 'releases' export button.
+        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export, partner))
+
+        # Set up GUI Frame
+        self.export_frame = Frame(self.export_box, bg=background)
+        self.export_frame.grid()
+
+        # Set up Export heading (row 0)
+        self.how_heading = Label(self.export_frame, text="Export / Instructions",
+                                 font=("Arial", "15", "bold",), fg="blue",
+                                 bg=background)
+        self.how_heading.grid(row=0)
+
+        # Export text (label, row 1)
+        self.export_text = Label(self.export_frame, text="Enter a filename in the box below", fg="blue",
+                                 justify=LEFT, width=40, bg=background, wrap=250)
+        self.export_text.grid(row=1)
+
+        # Warning text (label, row2)
+        self.export_text = Label(self.export_frame, text="If the filename you entered already exists,"
+                                                         "it will overwrite anything that is there.", justify=LEFT, bg=background,
+                                 fg='blue', font="Arial 10 italic",
+                                 wrap=225, padx=10, pady=10)
+        self.export_text.grid(row=2, pady=10)
+
+        # Filename Entry Box (row 3)
+        self.filename_entry = Entry(self.export_frame, width=20,
+                                    font="Arial 14 bold", justify=CENTER)
+        self.filename_entry.grid(row=3, pady=10)
+
+        # Error Message Labels (initially blank, row 4)
+        self.save_error_label = Label(self.export_frame, text="", fg="blue",
+                                      bg=background)
+        self.save_error_label.grid(row=4)
+
+        # Save / Cancel Frame (row 5)
+        self.save_cancel_frame = Frame(self.export_frame)
+        self.save_cancel_frame.grid(row=5, pady=10)
+
+        # Save and Cancel buttons (row 0 of save_cancel_frame)
+        self.save_button = Button(self.save_cancel_frame, text="Save", bg=background,
+                                  background="yellow", fg="blue",
+                                  command=partial(lambda: self.save_history(partner, calc_history)))
+        self.save_button.grid(row=0, column=0)
+
+        self.cancel_button = Button(self.save_cancel_frame, text="Cancel", bg=background,
+                                    background="yellow", fg="blue",
+                                    command=partial(self.close_export, partner))
+        self.cancel_button.grid(row=0, column=1)
+
+    def close_export(self, partner):
+        # Put export button back to normal...
+        partner.export_button.config(state=NORMAL)
+        self.export_box.destroy()
+
+    def save_history(self, partner, calc_history):
+
+        global problem
+        valid_char = "[A-Za-z0-9_]"
+        has_error = "no"
+
+        filename = self.filename_entry.get()
+        print(filename)
+
+        for letter in filename:
+            if re.match(valid_char, letter):
+                continue
+
+            elif letter == " ":
+                problem = " (no spaces allowed)"
+
+            else:
+                problem = ("(no {}'s allowed)".format(letter))
+            has_error = "yes"
+            break
+
+        if filename == "":
+            problem = "can't be blank"
+            has_error = "yes"
+
+        if has_error == "yes":
+            self.save_error_label.config(text="Invalid  - {}".format(problem))
+
+            self.filename_entry.config(bg="yellow")
+            print()
+
+        else:
+            filename = filename + ".txt"
+
+            f = open(filename, "w+")
+
+            for item in calc_history:
+                f.write("You got {}/{} right. Nice Job !!\n".format(self.result, self.rounds_played))
+
+            f.close()
+
+            self.close_export(partner)
+
+
 if __name__ == "__main__":
     root = Tk()
     root.title("Norse God Quiz")
     play = Start(root)
     root.mainloop()
+
+    # Had help from David Pham, Yichen Hsiao And Woojin Jeon
+    # Help from Mrs G as well as most of my code was recycled from her mystery box code.
