@@ -145,7 +145,7 @@ class Game:
         self.result_label = Label(self.game_box, font="Arial 14 bold", fg="black")
         self.result_label = Label(self.game_box, font="Arial 14 bold", fg="blue",
                                   text="{} correct / {} rounds played".format(self.result,
-                                                                             self.rounds_played))
+                                                                              self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
         self.all_calc_list = [self.result, self.rounds_played]
@@ -162,7 +162,7 @@ class Game:
         self.help_button.grid(row=7, column=0, pady=10)
 
         # history Button (row 1)
-        self.history_button = Button(self.game_box, text="Norse God Quiz Export/Save", fg="blue",
+        self.history_button = Button(self.game_box, text="Norse God Quiz Export/History", fg="blue",
                                      font="Arial 10 bold", width=25, height=2,
                                      bg="yellow", command=lambda: self.history(self.all_calc_list))
         self.history_button.grid(row=8, padx=15, pady=15)
@@ -312,9 +312,7 @@ class Help:
 class History:
     def __init__(self, partner, calc_history):
 
-
         self.result = partner.result
-
 
         self.rounds_played = partner.rounds_played
 
@@ -387,7 +385,6 @@ class History:
 
 class Export:
     def __init__(self, partner, calc_history):
-        print(calc_history)
 
         self.result = partner.result
         self.rounds_played = partner.rounds_played
@@ -492,8 +489,16 @@ class Export:
 
             f = open(filename, "w+")
 
+            f.write("Game Statistics\n\n")
+
             for item in calc_history:
                 f.write("You got {}/{} right. Nice Job !!\n".format(self.result, self.rounds_played))
+
+                # Heading for rounds
+                f.write("\nRound Details - Most Recent at the bottom\n\n")
+
+            for item in calc_history:
+                f.write(item + "\n")
 
             f.close()
 
