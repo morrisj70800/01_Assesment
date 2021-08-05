@@ -95,12 +95,12 @@ class Game:
 
         # Label for the quiz
         self.norse_god_label = Label(self.game_frame, text="Norse God Quiz",
-                                        font="Arial 15")
-        self.norse_god_label.grid(row=0)
+                                     font="Arial 15", fg="blue")
+        self.norse_god_label.grid(row=16, column=0)
 
         # Label showing answer
         self.answer_label = Label(self.game_frame, text="Norse God Quiz", font="Arial 15")
-        self.answer_label.grid(row=1)
+        self.answer_label.grid(row=10)
 
         # Setup grid for answer buttons row 3
         self.answers_frame = Frame(self.game_box)
@@ -110,12 +110,13 @@ class Game:
 
         # Boxes go here (row 2)
         self.box_frame = Frame(self.game_frame)
-        self.box_frame.grid(row=2, pady=10)
+        self.box_frame.grid(row=6, pady=10)
 
         self.god1_label = Label(self.box_frame, image=photo,
                                 padx=10, pady=10)
         self.god1_label.photo = photo
-        self.god1_label.grid(row=0, column=0)
+        self.god1_label.grid(row=1, column=0)
+
         # Top level button
 
         self.top_left_button = Button(self.answers_frame, text="",
@@ -163,7 +164,7 @@ class Game:
         self.history_button = Button(self.game_box, text="Norse God Quiz Export/Save", fg="blue",
                                      font="Arial 10 bold", width=25, height=2,
                                      bg="yellow", command=lambda: self.history(self.all_calc_list))
-        self.history_button.grid(row=9, padx=15, pady=15)
+        self.history_button.grid(row=8, padx=15, pady=15)
 
         # Next button
         self.next_button = Button(self.game_box, width=15, height=1, text="next", background="yellow", fg="blue",
@@ -191,12 +192,12 @@ class Game:
 
         # Check
         if location == self.answer:
-            self.answer_label.config(text="Nice!!!", fg="#00FF00")
-            self.answer_label.config(text="Nice One!!!", fg="#00FF00")
+            self.answer_label.config(text="Nice!!!", fg="Green")
+            self.answer_label.config(text="Nice One!!!", fg="Green")
             self.result += 1
         else:
-            self.answer_label.config(text="No!", fg="#0000FF")
-            self.answer_label.config(text="Better Luck Next Time!", fg="#0000FF")
+            self.answer_label.config(text="No!", fg="Red")
+            self.answer_label.config(text="Better Luck Next Time!", fg="Red")
 
         # refreshed result after right or wrong
         self.result_label.config(text="{} correct / {} Questions Answered".format(self.result, self.rounds_played))
@@ -226,6 +227,7 @@ class Game:
         print(question_answer)
 
         self.norse_god_label.config(text=self.question)
+
 
         # Answer List again
         answer_list = [self.answer, incorrect_answer_1, incorrect_answer_2, incorrect_answer_3]
@@ -259,11 +261,12 @@ class Game:
 
     def to_help(self):
         get_help = Help(self)
-        get_help.help_text.configure(text=" You will choose 1 of the 4 answers and one of them will"
-                                          "be the correct answer. "
-                                          "There is 25 different questions that you can answer"
-                                          " you may save your results when ever you feel like you want"
-                                          " to. after there has been 25 questions they will repeat")
+        get_help.help_text.configure(text="You will choose 1 of the 4 answers and one of them will"
+                                          "be the correct answer. \n\n "
+                                          "There are 25 different questions all on the different"
+                                          " norse gods."
+                                          "You Can save your results when ever you feel like you want"
+                                          " to. \n\n After the 25 questions it will repeat a question. ")
 
 
 class Help:
