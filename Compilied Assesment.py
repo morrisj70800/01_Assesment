@@ -79,6 +79,7 @@ class Game:
         # result
         self.result = 0
 
+        answers = random.sample
         # Amounts of game
         self.rounds_played = 0
 
@@ -143,7 +144,7 @@ class Game:
         # Label for results
         self.result_label = Label(self.game_box, font="Arial 14 bold", fg="black")
         self.result_label = Label(self.game_box, font="Arial 14 bold", fg="blue",
-                                  text="{} correct / {} games played".format(self.result,
+                                  text="{} correct / {} rounds played".format(self.result,
                                                                              self.rounds_played))
         self.result_label.grid(row=4, column=0)
 
@@ -192,8 +193,8 @@ class Game:
 
         # Check
         if location == self.answer:
-            self.answer_label.config(text="Nice!!!", fg="Green")
-            self.answer_label.config(text="Nice One!!!", fg="Green")
+            self.answer_label.config(text="Nice!!!", fg="Light Green")
+            self.answer_label.config(text="Nice One!!!", fg="Light Green")
             self.result += 1
         else:
             self.answer_label.config(text="No!", fg="Red")
